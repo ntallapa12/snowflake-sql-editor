@@ -32,9 +32,6 @@ get me total line items
 
 ## Running the application
 ```agsl
-SELECT * FROM "PREDEV_NXTDRIVE_PREDEV_COM_1CA502"."PUBLIC"."_qpm_contact" WHERE "FirstName" = 'JOHN'
-SELECT * FROM "PREDEV_NXTDRIVE_PREDEV_COM_1CA502"."PUBLIC"."_qpm_contact" WHERE "FirstName" = 'JOHN' LIMIT 10
-
 
 ng serve --verbose
 npm run start:server
