@@ -22,6 +22,26 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
+## Natural language text
+```agsl
+
+get me all total count of orders by product
+Get unique customers by first name
+get me total line items
+```
+
+## Running the application
+```agsl
+SELECT * FROM "PREDEV_NXTDRIVE_PREDEV_COM_1CA502"."PUBLIC"."_qpm_contact" WHERE "FirstName" = 'JOHN'
+SELECT * FROM "PREDEV_NXTDRIVE_PREDEV_COM_1CA502"."PUBLIC"."_qpm_contact" WHERE "FirstName" = 'JOHN' LIMIT 10
+
+
+ng serve --verbose
+npm run start:server
+// from nxtai project
+poetry run uvicorn app.main:app --reload
+```
+
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.

@@ -1,0 +1,1804 @@
+Following is the file structure of the repo. Output of the command 'tree .' is shown below:
+.
+├── README.md
+├── angular.json
+├── package.json
+├── public
+│   └── favicon.ico
+├── server
+│   └── server.js
+├── server.ts
+├── snowflake.log
+├── src
+│   ├── app
+│   │   ├── app.component.css
+│   │   ├── app.component.html
+│   │   ├── app.component.spec.ts
+│   │   ├── app.component.ts
+│   │   ├── app.config.ts
+│   │   ├── app.routes.ts
+│   │   ├── models
+│   │   │   └── table-column.model.ts
+│   │   ├── monaco-config.ts
+│   │   ├── monaco-editor
+│   │   │   ├── monaco-editor.component.ts
+│   │   │   └── snowflake-sql-language.ts
+│   │   ├── providers
+│   │   │   ├── per-model-provider-base.ts
+│   │   │   ├── snowflake-hover-provider.ts
+│   │   │   ├── snowflake-signature-help-provider.ts
+│   │   │   ├── sql-columns-completion-item-provider.ts
+│   │   │   └── sql-formatting-provider.ts
+│   │   ├── services
+│   │   │   ├── auto-complete.service.spec.ts
+│   │   │   ├── auto-complete.service.ts
+│   │   │   ├── natural-language.service.ts
+│   │   │   ├── snowflake.service.spec.ts
+│   │   │   ├── snowflake.service.ts
+│   │   │   ├── sql-formatter.service.spec.ts
+│   │   │   └── sql-formatter.service.ts
+│   │   ├── sql-editor
+│   │   │   ├── sql-editor.component.css
+│   │   │   ├── sql-editor.component.html
+│   │   │   ├── sql-editor.component.spec.ts
+│   │   │   └── sql-editor.component.ts
+│   │   └── utils
+│   │       ├── model-utils.ts
+│   │       └── snowflake-functions.ts
+│   ├── index.html
+│   ├── main.ts
+│   └── styles.css
+├── tsconfig.app.json
+├── tsconfig.json
+└── tsconfig.spec.json
+
+11 directories, 41 files
+---------------------
+Contents of directory src and its subdirectories:
+
+---------------------
+File: src/index.html
+---------------------
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Snowflake SQL Editor</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+<app-root></app-root>
+</body>
+</html>
+
+
+---------------------
+File: src/app/app.component.html
+---------------------
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<!-- * * * * * * * * * * * The content below * * * * * * * * * * * -->
+<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * -->
+<!-- * * * * * * * * * * and can be replaced.  * * * * * * * * * * -->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<!-- * * * * * * * * * Delete the template below * * * * * * * * * -->
+<!-- * * * * * * * to get started with your project! * * * * * * * -->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+<style>
+  :host {
+    --bright-blue: oklch(51.01% 0.274 263.83);
+    --electric-violet: oklch(53.18% 0.28 296.97);
+    --french-violet: oklch(47.66% 0.246 305.88);
+    --vivid-pink: oklch(69.02% 0.277 332.77);
+    --hot-red: oklch(61.42% 0.238 15.34);
+    --orange-red: oklch(63.32% 0.24 31.68);
+
+    --gray-900: oklch(19.37% 0.006 300.98);
+    --gray-700: oklch(36.98% 0.014 302.71);
+    --gray-400: oklch(70.9% 0.015 304.04);
+
+    --red-to-pink-to-purple-vertical-gradient: linear-gradient(
+      180deg,
+      var(--orange-red) 0%,
+      var(--vivid-pink) 50%,
+      var(--electric-violet) 100%
+    );
+
+    --red-to-pink-to-purple-horizontal-gradient: linear-gradient(
+      90deg,
+      var(--orange-red) 0%,
+      var(--vivid-pink) 50%,
+      var(--electric-violet) 100%
+    );
+
+    --pill-accent: var(--bright-blue);
+
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+      "Segoe UI Symbol";
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1 {
+    font-size: 3.125rem;
+    color: var(--gray-900);
+    font-weight: 500;
+    line-height: 100%;
+    letter-spacing: -0.125rem;
+    margin: 0;
+    font-family: "Inter Tight", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+      "Segoe UI Symbol";
+  }
+
+  p {
+    margin: 0;
+    color: var(--gray-700);
+  }
+
+  main {
+    width: 100%;
+    min-height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    box-sizing: inherit;
+    position: relative;
+  }
+
+  .angular-logo {
+    max-width: 9.2rem;
+  }
+
+  .content {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    max-width: 700px;
+    margin-bottom: 3rem;
+  }
+
+  .content h1 {
+    margin-top: 1.75rem;
+  }
+
+  .content p {
+    margin-top: 1.5rem;
+  }
+
+  .divider {
+    width: 1px;
+    background: var(--red-to-pink-to-purple-vertical-gradient);
+    margin-inline: 0.5rem;
+  }
+
+  .pill-group {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+  }
+
+  .pill {
+    display: flex;
+    align-items: center;
+    --pill-accent: var(--bright-blue);
+    background: color-mix(in srgb, var(--pill-accent) 5%, transparent);
+    color: var(--pill-accent);
+    padding-inline: 0.75rem;
+    padding-block: 0.375rem;
+    border-radius: 2.75rem;
+    border: 0;
+    transition: background 0.3s ease;
+    font-family: var(--inter-font);
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.4rem;
+    letter-spacing: -0.00875rem;
+    text-decoration: none;
+  }
+
+  .pill:hover {
+    background: color-mix(in srgb, var(--pill-accent) 15%, transparent);
+  }
+
+  .pill-group .pill:nth-child(6n + 1) {
+    --pill-accent: var(--bright-blue);
+  }
+  .pill-group .pill:nth-child(6n + 2) {
+    --pill-accent: var(--french-violet);
+  }
+  .pill-group .pill:nth-child(6n + 3),
+  .pill-group .pill:nth-child(6n + 4),
+  .pill-group .pill:nth-child(6n + 5) {
+    --pill-accent: var(--hot-red);
+  }
+
+  .pill-group svg {
+    margin-inline-start: 0.25rem;
+  }
+
+  .social-links {
+    display: flex;
+    align-items: center;
+    gap: 0.73rem;
+    margin-top: 1.5rem;
+  }
+
+  .social-links path {
+    transition: fill 0.3s ease;
+    fill: var(--gray-400);
+  }
+
+  .social-links a:hover svg path {
+    fill: var(--gray-900);
+  }
+
+  @media screen and (max-width: 650px) {
+    .content {
+      flex-direction: column;
+      width: max-content;
+    }
+
+    .divider {
+      height: 1px;
+      width: 100%;
+      background: var(--red-to-pink-to-purple-horizontal-gradient);
+      margin-block: 1.5rem;
+    }
+  }
+</style>
+
+<main class="main">
+  <div class="content">
+    <div class="left-side">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 982 239"
+        fill="none"
+        class="angular-logo"
+      >
+        <g clip-path="url(#a)">
+          <path
+            fill="url(#b)"
+            d="M388.676 191.625h30.849L363.31 31.828h-35.758l-56.215 159.797h30.848l13.174-39.356h60.061l13.256 39.356Zm-65.461-62.675 21.602-64.311h1.227l21.602 64.311h-44.431Zm126.831-7.527v70.202h-28.23V71.839h27.002v20.374h1.392c2.782-6.71 7.2-12.028 13.255-15.956 6.056-3.927 13.584-5.89 22.503-5.89 8.264 0 15.465 1.8 21.684 5.318 6.137 3.518 10.964 8.673 14.319 15.382 3.437 6.71 5.074 14.81 4.992 24.383v76.175h-28.23v-71.92c0-8.019-2.046-14.237-6.219-18.819-4.173-4.5-9.819-6.791-17.102-6.791-4.91 0-9.328 1.063-13.174 3.272-3.846 2.128-6.792 5.237-9.001 9.328-2.046 4.009-3.191 8.918-3.191 14.728ZM589.233 239c-10.147 0-18.82-1.391-26.103-4.091-7.282-2.7-13.092-6.382-17.511-10.964-4.418-4.582-7.528-9.655-9.164-15.219l25.448-6.136c1.145 2.372 2.782 4.663 4.991 6.954 2.209 2.291 5.155 4.255 8.837 5.81 3.683 1.554 8.428 2.291 14.074 2.291 8.019 0 14.647-1.964 19.884-5.81 5.237-3.845 7.856-10.227 7.856-19.064v-22.665h-1.391c-1.473 2.946-3.601 5.892-6.383 9.001-2.782 3.109-6.464 5.645-10.965 7.691-4.582 2.046-10.228 3.109-17.101 3.109-9.165 0-17.511-2.209-25.039-6.545-7.446-4.337-13.42-10.883-17.757-19.474-4.418-8.673-6.628-19.473-6.628-32.565 0-13.091 2.21-24.301 6.628-33.383 4.419-9.082 10.311-15.955 17.839-20.7 7.528-4.746 15.874-7.037 25.039-7.037 7.037 0 12.846 1.145 17.347 3.518 4.582 2.373 8.182 5.236 10.883 8.51 2.7 3.272 4.746 6.382 6.137 9.327h1.554v-19.8h27.821v121.749c0 10.228-2.454 18.737-7.364 25.447-4.91 6.709-11.538 11.7-20.048 15.055-8.509 3.355-18.165 4.991-28.884 4.991Zm.245-71.266c5.974 0 11.047-1.473 15.302-4.337 4.173-2.945 7.446-7.118 9.573-12.519 2.21-5.482 3.274-12.027 3.274-19.637 0-7.609-1.064-14.155-3.274-19.8-2.127-5.646-5.318-10.064-9.491-13.255-4.174-3.11-9.329-4.746-15.384-4.746s-11.537 1.636-15.792 4.91c-4.173 3.272-7.365 7.772-9.492 13.418-2.128 5.727-3.191 12.191-3.191 19.392 0 7.2 1.063 13.745 3.273 19.228 2.127 5.482 5.318 9.736 9.573 12.764 4.174 3.027 9.41 4.582 15.629 4.582Zm141.56-26.51V71.839h28.23v119.786h-27.412v-21.273h-1.227c-2.7 6.709-7.119 12.191-13.338 16.446-6.137 4.255-13.747 6.382-22.748 6.382-7.855 0-14.81-1.718-20.783-5.237-5.974-3.518-10.72-8.591-14.075-15.382-3.355-6.709-5.073-14.891-5.073-24.464V71.839h28.312v71.921c0 7.609 2.046 13.664 6.219 18.083 4.173 4.5 9.655 6.709 16.365 6.709 4.173 0 8.183-.982 12.111-3.028 3.927-2.045 7.118-5.072 9.655-9.082 2.537-4.091 3.764-9.164 3.764-15.218Zm65.707-109.395v159.796h-28.23V31.828h28.23Zm44.841 162.169c-7.61 0-14.402-1.391-20.457-4.091-6.055-2.7-10.883-6.791-14.32-12.109-3.518-5.319-5.237-11.946-5.237-19.801 0-6.791 1.228-12.355 3.765-16.773 2.536-4.419 5.891-7.937 10.228-10.637 4.337-2.618 9.164-4.664 14.647-6.055 5.4-1.391 11.046-2.373 16.856-3.027 7.037-.737 12.683-1.391 17.102-1.964 4.337-.573 7.528-1.555 9.574-2.782 1.963-1.309 3.027-3.273 3.027-5.973v-.491c0-5.891-1.718-10.391-5.237-13.664-3.518-3.191-8.51-4.828-15.056-4.828-6.955 0-12.356 1.473-16.447 4.5-4.009 3.028-6.71 6.546-8.183 10.719l-26.348-3.764c2.046-7.282 5.483-13.336 10.31-18.328 4.746-4.909 10.638-8.59 17.511-11.045 6.955-2.455 14.565-3.682 22.912-3.682 5.809 0 11.537.654 17.265 2.045s10.965 3.6 15.711 6.71c4.746 3.109 8.51 7.282 11.455 12.6 2.864 5.318 4.337 11.946 4.337 19.883v80.184h-27.166v-16.446h-.9c-1.719 3.355-4.092 6.464-7.201 9.328-3.109 2.864-6.955 5.237-11.619 6.955-4.828 1.718-10.229 2.536-16.529 2.536Zm7.364-20.701c5.646 0 10.556-1.145 14.729-3.354 4.173-2.291 7.364-5.237 9.655-9.001 2.292-3.763 3.355-7.854 3.355-12.273v-14.155c-.9.737-2.373 1.391-4.5 2.046-2.128.654-4.419 1.145-7.037 1.636-2.619.491-5.155.9-7.692 1.227-2.537.328-4.746.655-6.628.901-4.173.572-8.019 1.472-11.292 2.781-3.355 1.31-5.973 3.11-7.855 5.401-1.964 2.291-2.864 5.318-2.864 8.918 0 5.237 1.882 9.164 5.728 11.782 3.682 2.782 8.51 4.091 14.401 4.091Zm64.643 18.328V71.839h27.412v19.965h1.227c2.21-6.955 5.974-12.274 11.292-16.038 5.319-3.763 11.456-5.645 18.329-5.645 1.555 0 3.355.082 5.237.163 1.964.164 3.601.328 4.91.573v25.938c-1.227-.41-3.109-.819-5.646-1.146a58.814 58.814 0 0 0-7.446-.49c-5.155 0-9.738 1.145-13.829 3.354-4.091 2.209-7.282 5.236-9.655 9.164-2.373 3.927-3.519 8.427-3.519 13.5v70.448h-28.312ZM222.077 39.192l-8.019 125.923L137.387 0l84.69 39.192Zm-53.105 162.825-57.933 33.056-57.934-33.056 11.783-28.556h92.301l11.783 28.556ZM111.039 62.675l30.357 73.803H80.681l30.358-73.803ZM7.937 165.115 0 39.192 84.69 0 7.937 165.115Z"
+          />
+          <path
+            fill="url(#c)"
+            d="M388.676 191.625h30.849L363.31 31.828h-35.758l-56.215 159.797h30.848l13.174-39.356h60.061l13.256 39.356Zm-65.461-62.675 21.602-64.311h1.227l21.602 64.311h-44.431Zm126.831-7.527v70.202h-28.23V71.839h27.002v20.374h1.392c2.782-6.71 7.2-12.028 13.255-15.956 6.056-3.927 13.584-5.89 22.503-5.89 8.264 0 15.465 1.8 21.684 5.318 6.137 3.518 10.964 8.673 14.319 15.382 3.437 6.71 5.074 14.81 4.992 24.383v76.175h-28.23v-71.92c0-8.019-2.046-14.237-6.219-18.819-4.173-4.5-9.819-6.791-17.102-6.791-4.91 0-9.328 1.063-13.174 3.272-3.846 2.128-6.792 5.237-9.001 9.328-2.046 4.009-3.191 8.918-3.191 14.728ZM589.233 239c-10.147 0-18.82-1.391-26.103-4.091-7.282-2.7-13.092-6.382-17.511-10.964-4.418-4.582-7.528-9.655-9.164-15.219l25.448-6.136c1.145 2.372 2.782 4.663 4.991 6.954 2.209 2.291 5.155 4.255 8.837 5.81 3.683 1.554 8.428 2.291 14.074 2.291 8.019 0 14.647-1.964 19.884-5.81 5.237-3.845 7.856-10.227 7.856-19.064v-22.665h-1.391c-1.473 2.946-3.601 5.892-6.383 9.001-2.782 3.109-6.464 5.645-10.965 7.691-4.582 2.046-10.228 3.109-17.101 3.109-9.165 0-17.511-2.209-25.039-6.545-7.446-4.337-13.42-10.883-17.757-19.474-4.418-8.673-6.628-19.473-6.628-32.565 0-13.091 2.21-24.301 6.628-33.383 4.419-9.082 10.311-15.955 17.839-20.7 7.528-4.746 15.874-7.037 25.039-7.037 7.037 0 12.846 1.145 17.347 3.518 4.582 2.373 8.182 5.236 10.883 8.51 2.7 3.272 4.746 6.382 6.137 9.327h1.554v-19.8h27.821v121.749c0 10.228-2.454 18.737-7.364 25.447-4.91 6.709-11.538 11.7-20.048 15.055-8.509 3.355-18.165 4.991-28.884 4.991Zm.245-71.266c5.974 0 11.047-1.473 15.302-4.337 4.173-2.945 7.446-7.118 9.573-12.519 2.21-5.482 3.274-12.027 3.274-19.637 0-7.609-1.064-14.155-3.274-19.8-2.127-5.646-5.318-10.064-9.491-13.255-4.174-3.11-9.329-4.746-15.384-4.746s-11.537 1.636-15.792 4.91c-4.173 3.272-7.365 7.772-9.492 13.418-2.128 5.727-3.191 12.191-3.191 19.392 0 7.2 1.063 13.745 3.273 19.228 2.127 5.482 5.318 9.736 9.573 12.764 4.174 3.027 9.41 4.582 15.629 4.582Zm141.56-26.51V71.839h28.23v119.786h-27.412v-21.273h-1.227c-2.7 6.709-7.119 12.191-13.338 16.446-6.137 4.255-13.747 6.382-22.748 6.382-7.855 0-14.81-1.718-20.783-5.237-5.974-3.518-10.72-8.591-14.075-15.382-3.355-6.709-5.073-14.891-5.073-24.464V71.839h28.312v71.921c0 7.609 2.046 13.664 6.219 18.083 4.173 4.5 9.655 6.709 16.365 6.709 4.173 0 8.183-.982 12.111-3.028 3.927-2.045 7.118-5.072 9.655-9.082 2.537-4.091 3.764-9.164 3.764-15.218Zm65.707-109.395v159.796h-28.23V31.828h28.23Zm44.841 162.169c-7.61 0-14.402-1.391-20.457-4.091-6.055-2.7-10.883-6.791-14.32-12.109-3.518-5.319-5.237-11.946-5.237-19.801 0-6.791 1.228-12.355 3.765-16.773 2.536-4.419 5.891-7.937 10.228-10.637 4.337-2.618 9.164-4.664 14.647-6.055 5.4-1.391 11.046-2.373 16.856-3.027 7.037-.737 12.683-1.391 17.102-1.964 4.337-.573 7.528-1.555 9.574-2.782 1.963-1.309 3.027-3.273 3.027-5.973v-.491c0-5.891-1.718-10.391-5.237-13.664-3.518-3.191-8.51-4.828-15.056-4.828-6.955 0-12.356 1.473-16.447 4.5-4.009 3.028-6.71 6.546-8.183 10.719l-26.348-3.764c2.046-7.282 5.483-13.336 10.31-18.328 4.746-4.909 10.638-8.59 17.511-11.045 6.955-2.455 14.565-3.682 22.912-3.682 5.809 0 11.537.654 17.265 2.045s10.965 3.6 15.711 6.71c4.746 3.109 8.51 7.282 11.455 12.6 2.864 5.318 4.337 11.946 4.337 19.883v80.184h-27.166v-16.446h-.9c-1.719 3.355-4.092 6.464-7.201 9.328-3.109 2.864-6.955 5.237-11.619 6.955-4.828 1.718-10.229 2.536-16.529 2.536Zm7.364-20.701c5.646 0 10.556-1.145 14.729-3.354 4.173-2.291 7.364-5.237 9.655-9.001 2.292-3.763 3.355-7.854 3.355-12.273v-14.155c-.9.737-2.373 1.391-4.5 2.046-2.128.654-4.419 1.145-7.037 1.636-2.619.491-5.155.9-7.692 1.227-2.537.328-4.746.655-6.628.901-4.173.572-8.019 1.472-11.292 2.781-3.355 1.31-5.973 3.11-7.855 5.401-1.964 2.291-2.864 5.318-2.864 8.918 0 5.237 1.882 9.164 5.728 11.782 3.682 2.782 8.51 4.091 14.401 4.091Zm64.643 18.328V71.839h27.412v19.965h1.227c2.21-6.955 5.974-12.274 11.292-16.038 5.319-3.763 11.456-5.645 18.329-5.645 1.555 0 3.355.082 5.237.163 1.964.164 3.601.328 4.91.573v25.938c-1.227-.41-3.109-.819-5.646-1.146a58.814 58.814 0 0 0-7.446-.49c-5.155 0-9.738 1.145-13.829 3.354-4.091 2.209-7.282 5.236-9.655 9.164-2.373 3.927-3.519 8.427-3.519 13.5v70.448h-28.312ZM222.077 39.192l-8.019 125.923L137.387 0l84.69 39.192Zm-53.105 162.825-57.933 33.056-57.934-33.056 11.783-28.556h92.301l11.783 28.556ZM111.039 62.675l30.357 73.803H80.681l30.358-73.803ZM7.937 165.115 0 39.192 84.69 0 7.937 165.115Z"
+          />
+        </g>
+        <defs>
+          <radialGradient
+            id="c"
+            cx="0"
+            cy="0"
+            r="1"
+            gradientTransform="rotate(118.122 171.182 60.81) scale(205.794)"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stop-color="#FF41F8" />
+            <stop offset=".707" stop-color="#FF41F8" stop-opacity=".5" />
+            <stop offset="1" stop-color="#FF41F8" stop-opacity="0" />
+          </radialGradient>
+          <linearGradient
+            id="b"
+            x1="0"
+            x2="982"
+            y1="192"
+            y2="192"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stop-color="#F0060B" />
+            <stop offset="0" stop-color="#F0070C" />
+            <stop offset=".526" stop-color="#CC26D5" />
+            <stop offset="1" stop-color="#7702FF" />
+          </linearGradient>
+          <clipPath id="a"><path fill="#fff" d="M0 0h982v239H0z" /></clipPath>
+        </defs>
+      </svg>
+      <h1>Hello, {{ title }}</h1>
+      <p>Congratulations! Your app is running. 🎉</p>
+    </div>
+    <div class="divider" role="separator" aria-label="Divider"></div>
+    <div class="right-side">
+      <div class="pill-group">
+        @for (item of [
+          { title: 'Explore the Docs', link: 'https://angular.dev' },
+          { title: 'Learn with Tutorials', link: 'https://angular.dev/tutorials' },
+          { title: 'CLI Docs', link: 'https://angular.dev/tools/cli' },
+          { title: 'Angular Language Service', link: 'https://angular.dev/tools/language-service' },
+          { title: 'Angular DevTools', link: 'https://angular.dev/tools/devtools' },
+        ]; track item.title) {
+          <a
+            class="pill"
+            [href]="item.link"
+            target="_blank"
+            rel="noopener"
+          >
+            <span>{{ item.title }}</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="14"
+              viewBox="0 -960 960 960"
+              width="14"
+              fill="currentColor"
+            >
+              <path
+                d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 372-372H560v-80h280v280h-80v-144L388-332Z"
+              />
+            </svg>
+          </a>
+        }
+      </div>
+      <div class="social-links">
+        <a
+          href="https://github.com/angular/angular"
+          aria-label="Github"
+          target="_blank"
+          rel="noopener"
+        >
+          <svg
+            width="25"
+            height="24"
+            viewBox="0 0 25 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            alt="Github"
+          >
+            <path
+              d="M12.3047 0C5.50634 0 0 5.50942 0 12.3047C0 17.7423 3.52529 22.3535 8.41332 23.9787C9.02856 24.0946 9.25414 23.7142 9.25414 23.3871C9.25414 23.0949 9.24389 22.3207 9.23876 21.2953C5.81601 22.0377 5.09414 19.6444 5.09414 19.6444C4.53427 18.2243 3.72524 17.8449 3.72524 17.8449C2.61064 17.082 3.81137 17.0973 3.81137 17.0973C5.04697 17.1835 5.69604 18.3647 5.69604 18.3647C6.79321 20.2463 8.57636 19.7029 9.27978 19.3881C9.39052 18.5924 9.70736 18.0499 10.0591 17.7423C7.32641 17.4347 4.45429 16.3765 4.45429 11.6618C4.45429 10.3185 4.9311 9.22133 5.72065 8.36C5.58222 8.04931 5.16694 6.79833 5.82831 5.10337C5.82831 5.10337 6.85883 4.77319 9.2121 6.36459C10.1965 6.09082 11.2424 5.95546 12.2883 5.94931C13.3342 5.95546 14.3801 6.09082 15.3644 6.36459C17.7023 4.77319 18.7328 5.10337 18.7328 5.10337C19.3942 6.79833 18.9789 8.04931 18.8559 8.36C19.6403 9.22133 20.1171 10.3185 20.1171 11.6618C20.1171 16.3888 17.2409 17.4296 14.5031 17.7321C14.9338 18.1012 15.3337 18.8559 15.3337 20.0084C15.3337 21.6552 15.3183 22.978 15.3183 23.3779C15.3183 23.7009 15.5336 24.0854 16.1642 23.9623C21.0871 22.3484 24.6094 17.7341 24.6094 12.3047C24.6094 5.50942 19.0999 0 12.3047 0Z"
+            />
+          </svg>
+        </a>
+        <a
+          href="https://twitter.com/angular"
+          aria-label="Twitter"
+          target="_blank"
+          rel="noopener"
+        >
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            alt="Twitter"
+          >
+            <path
+              d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+            />
+          </svg>
+        </a>
+        <a
+          href="https://www.youtube.com/channel/UCbn1OgGei-DV7aSRo_HaAiw"
+          aria-label="Youtube"
+          target="_blank"
+          rel="noopener"
+        >
+          <svg
+            width="29"
+            height="20"
+            viewBox="0 0 29 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            alt="Youtube"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M27.4896 1.52422C27.9301 1.96749 28.2463 2.51866 28.4068 3.12258C29.0004 5.35161 29.0004 10 29.0004 10C29.0004 10 29.0004 14.6484 28.4068 16.8774C28.2463 17.4813 27.9301 18.0325 27.4896 18.4758C27.0492 18.9191 26.5 19.2389 25.8972 19.4032C23.6778 20 14.8068 20 14.8068 20C14.8068 20 5.93586 20 3.71651 19.4032C3.11363 19.2389 2.56449 18.9191 2.12405 18.4758C1.68361 18.0325 1.36732 17.4813 1.20683 16.8774C0.613281 14.6484 0.613281 10 0.613281 10C0.613281 10 0.613281 5.35161 1.20683 3.12258C1.36732 2.51866 1.68361 1.96749 2.12405 1.52422C2.56449 1.08095 3.11363 0.76113 3.71651 0.596774C5.93586 0 14.8068 0 14.8068 0C14.8068 0 23.6778 0 25.8972 0.596774C26.5 0.76113 27.0492 1.08095 27.4896 1.52422ZM19.3229 10L11.9036 5.77905V14.221L19.3229 10Z"
+            />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<!-- * * * * * * * * * * * The content above * * * * * * * * * * * * -->
+<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * * -->
+<!-- * * * * * * * * * * and can be replaced.  * * * * * * * * * * * -->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<!-- * * * * * * * * * * End of Placeholder  * * * * * * * * * * * * -->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+
+<router-outlet />
+
+
+---------------------
+File: src/app/sql-editor/sql-editor.component.css
+---------------------
+.sql-editor-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.natural-language-input {
+  display: flex;
+  gap: 10px;
+}
+
+.natural-language-input input {
+  flex-grow: 1;
+  padding: 5px;
+}
+
+.natural-language-input button {
+  padding: 5px 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.sql-editor-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.sql-editor-container {
+  position: relative;
+  height: 400px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+}
+
+.button-container {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
+
+.action-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.action-button:hover {
+  opacity: 0.9;
+}
+
+.action-button.execute {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.results-container {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+
+---------------------
+File: src/app/sql-editor/sql-editor.component.html
+---------------------
+<div class="sql-editor-page">
+  <div class="sql-editor-container">
+    <div class="natural-language-input">
+      <input
+        type="text"
+        [(ngModel)]="naturalLanguageQuery"
+        placeholder="Enter your query in natural language"
+      >
+      <button (click)="convertToSql()">Convert to SQL</button>
+    </div>
+    <app-monaco-editor #editor [code]="code"></app-monaco-editor>
+    <div class="button-container">
+      <button class="action-button" (click)="formatSql()">Format SQL</button>
+      <button class="action-button execute" (click)="executeQuery()">Execute Query</button>
+    </div>
+  </div>
+  <div *ngIf="queryResults" class="results-container">
+    <h3>Sample Results ({{ queryResults.totalCount }} total rows)</h3>
+    <div class="table-container">
+      <table>
+        <thead>
+        <tr>
+          <th *ngFor="let header of getHeaders()">{{ header }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let row of queryResults.sampleResults">
+          <td *ngFor="let header of getHeaders()">{{ row[header] }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+---------------------
+File: src/app/sql-editor/sql-editor.component.ts
+---------------------
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { SnowflakeService } from '../services/snowflake.service';
+import { SqlFormatterService } from '../services/sql-formatter.service';
+import { MonacoEditorComponent } from '../monaco-editor/monaco-editor.component';
+import { NaturalLanguageService } from '../services/natural-language.service';
+import { Table, Column } from '../models/table-column.model';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+@Component({
+  selector: 'app-sql-editor',
+  standalone: true,
+  imports: [CommonModule, FormsModule, MonacoEditorComponent],
+  templateUrl: './sql-editor.component.html',
+  styleUrls: ['./sql-editor.component.css']
+})
+export class SqlEditorComponent implements OnInit {
+  @ViewChild('editor') editor!: MonacoEditorComponent;
+  code: string = 'SELECT * FROM test';
+  queryResults: any;
+  naturalLanguageQuery: string = '';
+  tableColumns: Table[] = [];
+
+  constructor(
+    private snowflakeService: SnowflakeService,
+    private sqlFormatterService: SqlFormatterService,
+    private naturalLanguageService: NaturalLanguageService
+  ) {}
+
+  ngOnInit() {
+    console.log('SqlEditorComponent initialized');
+    this.snowflakeService.connect().subscribe(
+      () => {
+        console.log('Connected to Snowflake');
+      },
+      error => console.error('Failed to connect to Snowflake:', error)
+    );
+    // this.loadTableColumns().subscribe(
+    //   (tables: Table[]) => {
+    //     this.tableColumns = tables;
+    //     console.log('Loaded table columns:', this.tableColumns);
+    //   },
+    //   error => console.error('Error fetching metadata:', error)
+    // );
+  }
+
+  private loadTableColumns(): Observable<Table[]> {
+    return this.snowflakeService.fetchMetadata().pipe(
+      map((metadata: any[]) => {
+        // Use reduce to group and structure data by TABLE_NAME
+        const groupedData = metadata.reduce((acc, item) => {
+          // Check if the table entry already exists
+          if (!acc[item.TABLE_NAME]) {
+            acc[item.TABLE_NAME] = {
+              name: item.TABLE_NAME,
+              columns: []
+            };
+          }
+
+          // Create a Column object
+          const column: Column = {
+            name: item.COLUMN_NAME,
+            type: item.DATA_TYPE,
+            is_nullable: item.IS_NULLABLE
+          };
+
+          // Push the newly formatted column into the corresponding table's columns array
+          acc[item.TABLE_NAME].columns.push(column);
+
+          return acc;
+        }, {} as { [key: string]: Table });
+
+        // Convert the grouped object back into an array of Table objects
+        return Object.values(groupedData);
+      })
+    );
+  }
+
+  convertToSql() {
+    this.naturalLanguageService.convertToSql(this.naturalLanguageQuery).subscribe(
+      (sql) => {
+        if (this.editor) {
+          this.editor.updateCode(sql);
+        } else {
+          console.error('Editor not initialized');
+        }
+      },
+      (error) => {
+        console.error('Error converting natural language to SQL:', error);
+        // Handle error (e.g., show an error message to the user)
+      }
+    );
+  }
+
+  formatSql() {
+    console.log('Formatting SQL');
+    const formattedCode = this.sqlFormatterService.formatSql(this.editor.getCode());
+    this.editor.updateCode(formattedCode);
+  }
+
+  executeQuery() {
+    const query = this.editor.getCode();
+    this.snowflakeService.executeQuery(query).subscribe(
+      (results) => {
+        this.queryResults = results;
+        console.log('Query executed successfully:', results);
+      },
+      (error) => {
+        console.error('Error executing query:', error);
+      }
+    );
+  }
+
+  getHeaders(): string[] {
+    if (this.queryResults && this.queryResults.sampleResults.length > 0) {
+      return Object.keys(this.queryResults.sampleResults[0]);
+    }
+    return [];
+  }
+}
+
+
+---------------------
+File: src/app/sql-editor/sql-editor.component.spec.ts
+---------------------
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { SqlEditorComponent } from './sql-editor.component';
+
+describe('SqlEditorComponent', () => {
+  let component: SqlEditorComponent;
+  let fixture: ComponentFixture<SqlEditorComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [SqlEditorComponent]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(SqlEditorComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+
+
+---------------------
+File: src/app/monaco-config.ts
+---------------------
+import { NgZone } from '@angular/core';
+import * as monaco from 'monaco-editor';
+
+export function initializeMonacoWorkers(ngZone: NgZone) {
+  ngZone.runOutsideAngular(() => {
+    const win = window as any;
+    win.MonacoEnvironment = {
+      getWorkerUrl: function (_moduleId: string, label: string) {
+        if (label === 'json') {
+          return './assets/monaco/vs/language/json/json.worker.js';
+        }
+        if (label === 'css' || label === 'scss' || label === 'less') {
+          return './assets/monaco/vs/language/css/css.worker.js';
+        }
+        if (label === 'html' || label === 'handlebars' || label === 'razor') {
+          return './assets/monaco/vs/language/html/html.worker.js';
+        }
+        if (label === 'typescript' || label === 'javascript') {
+          return './assets/monaco/vs/language/typescript/ts.worker.js';
+        }
+        return './assets/monaco/vs/editor/editor.worker.js';
+      }
+    } as monaco.Environment;
+  });
+}
+
+
+---------------------
+File: src/app/app.routes.ts
+---------------------
+import { Routes } from '@angular/router';
+import { SqlEditorComponent } from './sql-editor/sql-editor.component';
+
+export const routes: Routes = [
+  { path: '', component: SqlEditorComponent }
+];
+
+
+---------------------
+File: src/app/providers/per-model-provider-base.ts
+---------------------
+// src/app/providers/per-model-provider-base.ts
+import * as monaco from 'monaco-editor';
+
+export interface PerModelProvider {
+  setForModel(model: monaco.editor.ITextModel | null): void;
+  unset(): void;
+}
+
+export abstract class PerModelProviderBase implements PerModelProvider {
+  protected _model: monaco.editor.ITextModel | null = null;
+  private _registration: monaco.IDisposable | null = null;
+
+  setForModel(model: monaco.editor.ITextModel | null): void {
+    if (this._registration) {
+      this._registration.dispose();
+      this._registration = null;
+    }
+
+    this._model = model;
+
+    if (model) {
+      this._registration = this.register();
+    }
+  }
+
+  unset(): void {
+    this.setForModel(null);
+  }
+
+  protected abstract register(): monaco.IDisposable;
+}
+
+
+---------------------
+File: src/app/providers/snowflake-hover-provider.ts
+---------------------
+// src/app/providers/snowflake-hover-provider.ts
+import { PerModelProviderBase } from './per-model-provider-base';
+import { SNOWFLAKE_FUNCTIONS } from '../utils/snowflake-functions';
+import * as monaco from 'monaco-editor';
+
+export class SnowflakeHoverProvider extends PerModelProviderBase {
+  public register() {
+    return monaco.languages.registerHoverProvider('snowflake-sql', {
+      provideHover: (model, position) => {
+        const word = model.getWordAtPosition(position);
+        if (!word) {
+          return null;
+        }
+
+        const func = SNOWFLAKE_FUNCTIONS.find(f => f.name.toLowerCase() === word.word.toLowerCase());
+        if (func) {
+          return {
+            contents: [
+              { value: '**' + func.name + '**' },
+              { value: func.signature },
+              { value: func.description }
+            ]
+          };
+        }
+
+        // Add hover information for SQL keywords if needed
+        // ...
+
+        return null;
+      }
+    });
+  }
+}
+
+
+---------------------
+File: src/app/providers/snowflake-signature-help-provider.ts
+---------------------
+// src/app/providers/snowflake-signature-help-provider.ts
+import { PerModelProviderBase } from './per-model-provider-base';
+import * as monaco from 'monaco-editor';
+import { SNOWFLAKE_FUNCTIONS } from '../utils/snowflake-functions';
+
+export class SnowflakeSignatureHelpProvider extends PerModelProviderBase {
+  public register() {
+    return monaco.languages.registerSignatureHelpProvider('snowflake-sql', {
+      signatureHelpTriggerCharacters: ['(', ','],
+      provideSignatureHelp: (model, position) => {
+        const textUntilPosition = model.getValueInRange({
+          startLineNumber: 1,
+          startColumn: 1,
+          endLineNumber: position.lineNumber,
+          endColumn: position.column
+        });
+
+        const match = /(\w+)\s*\(/.exec(textUntilPosition);
+        if (match) {
+          const functionName = match[1];
+          const func = SNOWFLAKE_FUNCTIONS.find(f => f.name.toLowerCase() === functionName.toLowerCase());
+          if (func) {
+            return {
+              value: {
+                signatures: [{
+                  label: func.signature,
+                  documentation: func.description,
+                  parameters: func.signature
+                    .substring(func.signature.indexOf('(') + 1, func.signature.lastIndexOf(')'))
+                    .split(',')
+                    .map(param => ({ label: param.trim() }))
+                }],
+                activeSignature: 0,
+                activeParameter: Math.max(0, (textUntilPosition.match(/,/g) || []).length)
+              },
+              dispose: () => {}
+            };
+          }
+        }
+
+        return null;
+      }
+    });
+  }
+}
+
+
+---------------------
+File: src/app/providers/sql-columns-completion-item-provider.ts
+---------------------
+import * as monaco from 'monaco-editor';
+import {SNOWFLAKE_FUNCTIONS} from "../utils/snowflake-functions";
+import { SnowflakeService } from '../services/snowflake.service';
+
+interface TableInfo {
+  name: string;
+  alias?: string;
+}
+
+export class SqlColumnsCompletionItemProvider {
+  private tableColumns: Map<string, string[]> = new Map();
+  private _model: monaco.editor.ITextModel | null = null;
+  private schemas: string[] = [];
+  private databases: string[] = [];
+
+  constructor(private snowflakeService: SnowflakeService) {
+    this.loadSchemasAndDatabases();
+  }
+  setModel(model: monaco.editor.ITextModel) {
+    this._model = model;
+  }
+
+  setTableColumns(tableColumns: Map<string, string[]>) {
+    this.tableColumns = tableColumns;
+  }
+
+  register(): monaco.IDisposable {
+    console.log('Registering completion provider');
+    return monaco.languages.registerCompletionItemProvider('snowflake-sql', {
+      triggerCharacters: ['.', ' '],
+      provideCompletionItems: (
+        model: monaco.editor.ITextModel,
+        position: monaco.Position,
+      ): monaco.languages.ProviderResult<monaco.languages.CompletionList> => {
+        console.log('Providing completion items');
+
+        // Remove the model check, as we want to provide suggestions for any model
+        const wordUntilPosition = model.getWordUntilPosition(position);
+        const lineContent = model.getLineContent(position.lineNumber);
+
+        // Check if we're after a table alias
+        const tableInfo = this.getRelevantTableInfo(lineContent, wordUntilPosition);
+        console.log('Table info:', tableInfo)
+        if (tableInfo && tableInfo.name && this.tableColumns.has(tableInfo.name)) {
+          const suggestions = [
+            ...this.getColumnSuggestions(tableInfo, position, wordUntilPosition),
+            ...this.getKeywordSuggestions(position, wordUntilPosition),
+            ...this.getFunctionSuggestions(position)
+          ];
+          return {
+            suggestions
+          };
+        }
+
+        const suggestions = [
+          ...this.getTableSuggestions(position, wordUntilPosition),
+          ...this.getKeywordSuggestions(position, wordUntilPosition),
+          ...this.getFunctionSuggestions(position),
+          ...this.getSchemaSuggestions(position, wordUntilPosition),
+          ...this.getDatabaseSuggestions(position, wordUntilPosition)
+          ]
+        // If not after a table alias, provide keyword suggestions
+        return {
+          suggestions
+        };
+      }
+    });
+  }
+
+  private loadSchemasAndDatabases() {
+    this.snowflakeService.getSchemas().subscribe(
+      schemas => this.schemas = schemas,
+      error => console.error('Error fetching schemas:', error)
+    );
+    this.snowflakeService.getDatabases().subscribe(
+      databases => this.databases = databases,
+      error => console.error('Error fetching databases:', error)
+    );
+  }
+
+  private getTableSuggestions(position: monaco.Position, word: monaco.editor.IWordAtPosition): monaco.languages.CompletionItem[] {
+    const tables = Array.from(this.tableColumns.keys());
+    return tables.map(table => ({
+      label: table,
+      kind: monaco.languages.CompletionItemKind.Module,
+      insertText: table,
+      range: {
+        startLineNumber: position.lineNumber,
+        endLineNumber: position.lineNumber,
+        startColumn: word.startColumn,
+        endColumn: word.endColumn
+      },
+      // You might want to add these properties as well for better completion items
+      detail: 'Table',
+      documentation: `This is a table named ${table}`
+    }));
+  }
+
+  private getRelevantTableInfo(lineContent: string, word: monaco.editor.IWordAtPosition): { name: string; alias: string; schema: string; database: string } | null {
+    const beforeWord = lineContent.substring(0, word.startColumn - 1);
+
+    // Match for fully qualified table names with or without quotes, and optional alias
+    const fullMatch = beforeWord.match(/FROM\s+(("([^"]+)"|([^\s."]+))\.("([^"]+)"|([^\s."]+))\.("([^"]+)"|([^\s."]+)))(\s+AS\s+(\w+))?.*?(WHERE|$)/i);
+    console.log('Full match:', fullMatch);
+
+    if (fullMatch) {
+      const database = fullMatch[3] || fullMatch[4] || '';
+      const schema = fullMatch[6] || fullMatch[7] || '';
+      const tableName = fullMatch[9] || fullMatch[10] || '';
+      const alias = fullMatch[12] || tableName;
+
+      return {
+        name: tableName,
+        alias: alias,
+        schema: schema,
+        database: database
+      };
+    }
+
+    // Match for table names without full qualification, with or without alias
+    const simpleMatch = beforeWord.match(/FROM\s+([^\s]+)(\s+AS\s+(\w+))?.*?(WHERE|$)/i);
+
+    if (simpleMatch) {
+      return {
+        name: simpleMatch[1],
+        alias: simpleMatch[3] || simpleMatch[1],
+        schema: '',
+        database: ''
+      };
+    }
+
+    return null;
+  }
+
+  private getColumnSuggestions(tableInfo: { name: string; alias: string }, position: monaco.Position, word: monaco.editor.IWordAtPosition): monaco.languages.CompletionItem[] {
+    const columns = this.tableColumns.get(tableInfo.name) || [];
+    return columns.map(column => ({
+      label: column,
+      kind: monaco.languages.CompletionItemKind.Field,
+      insertText: column,
+      range: {
+        startLineNumber: position.lineNumber,
+        endLineNumber: position.lineNumber,
+        startColumn: word.startColumn,
+        endColumn: word.endColumn
+      },
+      // You might want to add these properties as well for better completion items
+      detail: `Column of ${tableInfo.name}`,
+      documentation: `This is a column named ${column} in table ${tableInfo.name}`
+    }));
+  }
+
+  private getKeywordSuggestions(position: monaco.Position, word: monaco.editor.IWordAtPosition): monaco.languages.CompletionItem[] {
+    const keywords = [
+      'SELECT', 'FROM', 'WHERE', 'AND', 'OR', 'INSERT', 'UPDATE', 'DELETE',
+      'CREATE', 'TABLE', 'DROP', 'ALTER', 'INDEX', 'VIEW', 'PROCEDURE', 'FUNCTION',
+      'WAREHOUSE', 'CLONE', 'SHARE', 'STAGE', 'PIPE', 'TASK', 'STREAM',
+      'COPY', 'MERGE', 'UNDROP', 'RLIKE', 'SAMPLE', 'QUALIFY', 'PIVOT', 'UNPIVOT', 'LIMIT'
+    ];
+    return keywords.map(keyword => ({
+      label: keyword,
+      kind: monaco.languages.CompletionItemKind.Keyword,
+      insertText: keyword,
+      range: {
+        startLineNumber: position.lineNumber,
+        endLineNumber: position.lineNumber,
+        startColumn: word.startColumn,
+        endColumn: word.endColumn
+      }
+    }));
+  }
+
+  private getFunctionSuggestions(position: monaco.Position): monaco.languages.CompletionItem[] {
+    return SNOWFLAKE_FUNCTIONS.map(func => ({
+      label: func.name,
+      kind: monaco.languages.CompletionItemKind.Function,
+      insertText: func.name,
+      detail: func.signature,
+      documentation: func.description,
+      range: {
+        startLineNumber: position.lineNumber,
+        endLineNumber: position.lineNumber,
+        startColumn: position.column,
+        endColumn: position.column
+      }
+    }));
+  }
+  private getSchemaSuggestions(position: monaco.Position, word: monaco.editor.IWordAtPosition): monaco.languages.CompletionItem[] {
+    return this.schemas.map(schema => ({
+      label: schema,
+      kind: monaco.languages.CompletionItemKind.Module,
+      insertText: schema,
+      range: {
+        startLineNumber: position.lineNumber,
+        endLineNumber: position.lineNumber,
+        startColumn: word.startColumn,
+        endColumn: word.endColumn
+      }
+    }));
+  }
+
+  private getDatabaseSuggestions(position: monaco.Position, word: monaco.editor.IWordAtPosition): monaco.languages.CompletionItem[] {
+    return this.databases.map(database => ({
+      label: database,
+      kind: monaco.languages.CompletionItemKind.Module,
+      insertText: database,
+      range: {
+        startLineNumber: position.lineNumber,
+        endLineNumber: position.lineNumber,
+        startColumn: word.startColumn,
+        endColumn: word.endColumn
+      }
+    }));
+  }
+}
+
+
+---------------------
+File: src/app/providers/sql-formatting-provider.ts
+---------------------
+// src/app/providers/sql-formatting-provider.ts
+import { format } from 'sql-formatter';
+
+export class SqlFormattingProvider {
+  static register() {
+    monaco.languages.registerDocumentFormattingEditProvider('snowflake-sql', {
+      provideDocumentFormattingEdits: (model: monaco.editor.ITextModel, options: monaco.languages.FormattingOptions) => {
+        const formatted = format(model.getValue(), {
+          language: 'sql',
+          indent: ' '.repeat(options.tabSize || 4),
+          uppercase: true,
+        } as any); // Use 'as any' to bypass strict type checking
+
+        return [{
+          range: model.getFullModelRange(),
+          text: formatted,
+        }];
+      },
+    });
+  }
+}
+
+
+---------------------
+File: src/app/app.component.spec.ts
+---------------------
+import { TestBed } from '@angular/core/testing';
+import { AppComponent } from './app.component';
+
+describe('AppComponent', () => {
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [AppComponent],
+    }).compileComponents();
+  });
+
+  it('should create the app', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    expect(app).toBeTruthy();
+  });
+
+  it(`should have the 'snowflake-sql-editor' title`, () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    expect(app.title).toEqual('snowflake-sql-editor');
+  });
+
+  it('should render title', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, snowflake-sql-editor');
+  });
+});
+
+
+---------------------
+File: src/app/utils/model-utils.ts
+---------------------
+// src/app/utils/model-utils.ts
+import * as monaco from 'monaco-editor';
+
+export class ModelUtils {
+  static charBefore(model: monaco.editor.ITextModel, lineNumber: number, column: number) {
+    return model.getValueInRange({
+      startLineNumber: lineNumber,
+      startColumn: column - 1,
+      endLineNumber: lineNumber,
+      endColumn: column,
+    });
+  }
+}
+
+
+---------------------
+File: src/app/utils/snowflake-functions.ts
+---------------------
+// src/app/utils/snowflake-functions.ts
+export interface SnowflakeFunction {
+  name: string;
+  description: string;
+  signature: string;
+}
+
+export const SNOWFLAKE_FUNCTIONS: SnowflakeFunction[] = [
+  {
+    name: 'SYSTEM$WHITELIST',
+    description: 'Returns the list of IP addresses and ranges in the IP whitelist for your account.',
+    signature: 'SYSTEM$WHITELIST()'
+  },
+  {
+    name: 'SYSTEM$STREAM_HAS_DATA',
+    description: 'Returns TRUE if the stream contains change tracking data; otherwise, returns FALSE.',
+    signature: 'SYSTEM$STREAM_HAS_DATA(<stream_name>)'
+  },
+  // Add more Snowflake functions here...
+];
+
+
+---------------------
+File: src/app/models/table-column.model.ts
+---------------------
+// src/app/models/table-column.model.ts
+export interface Column {
+  name: string;
+  type: string;
+  is_nullable: string;
+}
+
+export interface Table {
+  name: string;
+  columns: Column[];
+}
+
+
+---------------------
+File: src/app/app.component.ts
+---------------------
+import {Component, OnInit} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
+import { SqlEditorComponent } from './sql-editor/sql-editor.component';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [CommonModule, RouterOutlet, SqlEditorComponent],
+  template: `
+    <h1>Snowflake SQL Editor</h1>
+    <app-sql-editor></app-sql-editor>
+  `,
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent implements OnInit {
+  title = 'snowflake-sql-editor';
+
+  constructor() {
+    console.log('AppComponent constructed');
+  }
+
+  ngOnInit() {
+    console.log('AppComponent initialized');
+  }
+}
+
+
+---------------------
+File: src/app/app.config.ts
+---------------------
+import { ApplicationConfig, importProvidersFrom, NgZone } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { routes } from './app.routes';
+import { FormsModule } from '@angular/forms';
+import { initializeMonacoWorkers } from './monaco-config';
+import {HttpClientModule} from "@angular/common/http";
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideRouter(routes),
+    importProvidersFrom(FormsModule, HttpClientModule),
+    {
+      provide: 'MONACO_INIT',
+      useFactory: (ngZone: NgZone) => {
+        return () => initializeMonacoWorkers(ngZone);
+      },
+      deps: [NgZone]
+    }
+  ]
+};
+
+
+---------------------
+File: src/app/app.component.css
+---------------------
+
+
+---------------------
+File: src/app/monaco-editor/monaco-editor.component.ts
+---------------------
+import { Component, ElementRef, Input, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import * as monaco from 'monaco-editor';
+import { SnowflakeSQL } from './snowflake-sql-language';
+import { SqlColumnsCompletionItemProvider } from '../providers/sql-columns-completion-item-provider';
+import { SnowflakeHoverProvider } from '../providers/snowflake-hover-provider';
+import { SnowflakeSignatureHelpProvider } from '../providers/snowflake-signature-help-provider';
+import { SnowflakeService } from '../services/snowflake.service';
+
+
+// Define an interface for the metadata item
+interface ColumnData {
+  TABLE_NAME: string;
+  COLUMN_NAME: string;
+}
+
+
+interface TableColumns {
+  tableName: string;
+  columns: string[];
+}
+// src/app/monaco-editor/monaco-editor.component.ts
+// @Component({
+//   selector: 'app-monaco-editor',
+//   standalone: true,
+//   imports: [CommonModule, FormsModule],
+//   template: '<div #editorContainer style="width:800px;height:600px;border:1px solid grey"></div>',
+//   styles: []
+// })
+@Component({
+  selector: 'app-monaco-editor',
+  imports: [CommonModule, FormsModule],
+  standalone: true,
+  template: '<div #editorContainer style="width:100%;height:100%;"></div>',
+  styles: [':host { display: block; height: 100%; }']
+})
+export class MonacoEditorComponent implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild('editorContainer', { static: true }) editorContainer!: ElementRef;
+  @Input() code: string = '';
+
+  private editor: monaco.editor.IStandaloneCodeEditor | null = null;
+  private disposables: monaco.IDisposable[] = [];
+  private sqlColumnsProvider: SqlColumnsCompletionItemProvider;
+
+  constructor(private snowflakeService: SnowflakeService) {
+    this.sqlColumnsProvider = new SqlColumnsCompletionItemProvider(this.snowflakeService);
+  }
+
+  ngOnInit() {
+    console.log('MonacoEditorComponent initialized');
+    monaco.languages.register({ id: 'snowflake-sql' });
+    monaco.languages.setMonarchTokensProvider('snowflake-sql', SnowflakeSQL);
+  }
+
+  ngAfterViewInit() {
+    this.initMonaco();
+    this.initProviders();
+  }
+
+  private initMonaco() {
+    if (!this.editor) {
+      this.editor = monaco.editor.create(this.editorContainer.nativeElement, {
+        value: this.code,
+        language: 'sql',
+        theme: 'vs-dark',
+        automaticLayout: true
+      });
+    }
+
+    if (this.editor) {
+      this.sqlColumnsProvider.setModel(this.editor.getModel()!);
+    }
+  }
+
+  private initProviders() {
+    this.snowflakeService.fetchMetadata().subscribe((metadata: ColumnData[]) => {
+      console.log('Fetched metadata:', metadata);
+      const tableColumnsMap = new Map<string, string[]>();
+
+      metadata.forEach((item: ColumnData) => {
+        if (!tableColumnsMap.has(item.TABLE_NAME)) {
+          tableColumnsMap.set(item.TABLE_NAME, []);
+        }
+        tableColumnsMap.get(item.TABLE_NAME)!.push(item.COLUMN_NAME);
+      });
+
+      this.sqlColumnsProvider.setTableColumns(tableColumnsMap);
+      this.disposables.push(this.sqlColumnsProvider.register());
+
+      // Register other providers if needed
+      // this.disposables.push(hoverProvider.register());
+      // this.disposables.push(signatureHelpProvider.register());
+    });
+  }
+
+  updateCode(newCode: string) {
+    if (this.editor) {
+      this.editor.setValue(newCode);
+    } else {
+      console.error('Editor not initialized');
+    }
+  }
+  getCode(): string {
+    return this.editor ? this.editor.getValue() : '';
+  }
+
+  ngOnDestroy() {
+    if (this.editor) {
+      this.editor.dispose();
+    }
+    this.disposables.forEach(d => d.dispose());
+  }
+}
+
+
+---------------------
+File: src/app/monaco-editor/snowflake-sql-language.ts
+---------------------
+// src/app/monaco-editor/snowflake-sql-language.ts
+import * as monaco from 'monaco-editor';
+
+export const SnowflakeSQL: monaco.languages.IMonarchLanguage = {
+  defaultToken: '',
+  tokenPostfix: '.sql',
+  ignoreCase: true,
+
+  brackets: [
+    { open: '[', close: ']', token: 'delimiter.square' },
+    { open: '(', close: ')', token: 'delimiter.parenthesis' }
+  ],
+
+  keywords: [
+    'SELECT', 'FROM', 'WHERE', 'AND', 'OR', 'INSERT', 'UPDATE', 'DELETE',
+    'CREATE', 'TABLE', 'DROP', 'ALTER', 'INDEX', 'VIEW', 'PROCEDURE', 'FUNCTION',
+    // Add Snowflake-specific keywords here
+    'WAREHOUSE', 'CLONE', 'SHARE', 'STAGE', 'PIPE', 'TASK', 'STREAM',
+    'COPY', 'MERGE', 'UNDROP', 'RLIKE', 'SAMPLE', 'QUALIFY', 'PIVOT', 'UNPIVOT'
+  ],
+
+  operators: [
+    '=', '>', '<', '!', '~', '?', ':',
+    '==', '<=', '>=', '!=', '&&', '||', '++', '--', '+', '-', '*', '/',
+    '&', '|', '^', '%', '<<', '>>', '>>>', '+=', '-=', '*=', '/=', '&=', '|=', '^=',
+    '%=', '<<=', '>>=', '>>>='
+  ],
+
+  builtinFunctions: [
+    // Add Snowflake-specific functions here
+    'SYSTEM$WHITELIST', 'SYSTEM$STREAM_HAS_DATA', 'SYSTEM$CANCEL_QUERY',
+    'SYSTEM$EXPLAIN_PLAN_JSON', 'SYSTEM$GENERATE_SCIM_ACCESS_TOKEN'
+  ],
+
+  tokenizer: {
+    root: [
+      { include: '@comments' },
+      { include: '@whitespace' },
+      { include: '@numbers' },
+      { include: '@strings' },
+      { include: '@complexIdentifiers' },
+      { include: '@scopes' },
+      [/[;,.]/, 'delimiter'],
+      [/[()]/, '@brackets'],
+      [/[\w@#$]+/, {
+        cases: {
+          '@keywords': 'keyword',
+          '@operators': 'operator',
+          '@builtinFunctions': 'predefined',
+          '@default': 'identifier'
+        }
+      }],
+      [/[<>=!%&+\-*/|~^]/, 'operator'],
+    ],
+    whitespace: [
+      [/\s+/, 'white']
+    ],
+    comments: [
+      [/--+.*/, 'comment'],
+      [/\/\*/, { token: 'comment.quote', next: '@comment' }]
+    ],
+    comment: [
+      [/[^*/]+/, 'comment'],
+      [/\*\//, { token: 'comment.quote', next: '@pop' }],
+      [/./, 'comment']
+    ],
+    numbers: [
+      [/0[xX][0-9a-fA-F]*/, 'number'],
+      [/[$][+-]*\d*(\.\d*)?/, 'number'],
+      [/((\d+(\.\d*)?)|(\.\d+))([eE][\-+]?\d+)?/, 'number']
+    ],
+    strings: [
+      [/'/, { token: 'string', next: '@string' }],
+      [/"/, { token: 'string.double', next: '@stringDouble' }]
+    ],
+    string: [
+      [/[^']+/, 'string'],
+      [/''/, 'string'],
+      [/'/, { token: 'string', next: '@pop' }]
+    ],
+    stringDouble: [
+      [/[^"]+/, 'string.double'],
+      [/""/, 'string.double'],
+      [/"/, { token: 'string.double', next: '@pop' }]
+    ],
+    complexIdentifiers: [
+      [/\[/, { token: 'identifier.quote', next: '@bracketedIdentifier' }],
+      [/"/, { token: 'identifier.quote', next: '@quotedIdentifier' }]
+    ],
+    bracketedIdentifier: [
+      [/[^\]]+/, 'identifier'],
+      [/]]/, 'identifier'],
+      [/]/, { token: 'identifier.quote', next: '@pop' }]
+    ],
+    quotedIdentifier: [
+      [/[^"]+/, 'identifier'],
+      [/""/, 'identifier'],
+      [/"/, { token: 'identifier.quote', next: '@pop' }]
+    ],
+    scopes: [
+      [/BEGIN\s+(TRAN|TRANSACTION)/, { token: 'keyword.scope', next: '@scope' }],
+      [/BEGIN/, { token: 'keyword.scope', next: '@scope' }],
+      [/END\s+(TRAN|TRANSACTION)/, { token: 'keyword.scope' }],
+      [/END/, { token: 'keyword.scope' }],
+      [/COMMIT\s+(TRAN|TRANSACTION)/, { token: 'keyword.scope' }],
+      [/ROLLBACK\s+(TRAN|TRANSACTION)/, { token: 'keyword.scope' }],
+      [/COMMIT/, { token: 'keyword.scope' }],
+      [/ROLLBACK/, { token: 'keyword.scope' }],
+    ],
+    scope: [
+      [/BEGIN\s+(TRAN|TRANSACTION)/, { token: 'keyword.scope', next: '@scope' }],
+      [/BEGIN/, { token: 'keyword.scope', next: '@scope' }],
+      [/END\s+(TRAN|TRANSACTION)/, { token: 'keyword.scope', next: '@pop' }],
+      [/END/, { token: 'keyword.scope', next: '@pop' }],
+      [/COMMIT\s+(TRAN|TRANSACTION)/, { token: 'keyword.scope', next: '@pop' }],
+      [/ROLLBACK\s+(TRAN|TRANSACTION)/, { token: 'keyword.scope', next: '@pop' }],
+      [/COMMIT/, { token: 'keyword.scope', next: '@pop' }],
+      [/ROLLBACK/, { token: 'keyword.scope', next: '@pop' }],
+      { include: '@root' }
+    ],
+  },
+};
+
+
+---------------------
+File: src/app/services/natural-language.service.ts
+---------------------
+// src/app/services/natural-language.service.ts
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Table } from '../models/table-column.model';
+
+interface ConvertToSqlRequest {
+  query: string;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class NaturalLanguageService {
+  private apiUrl = 'http://localhost:8000/api/v1/generate_sql'; // Replace with your actual endpoint
+
+  constructor(private http: HttpClient) {}
+
+  convertToSql(naturalLanguageQuery: string): Observable<string> {
+    const request: ConvertToSqlRequest = {
+      query: naturalLanguageQuery
+    };
+    return this.http.post<string>(this.apiUrl, request);
+  }
+}
+
+
+---------------------
+File: src/app/services/snowflake.service.ts
+---------------------
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class SnowflakeService {
+  private apiUrl = 'http://localhost:3000/api';
+
+  constructor(private http: HttpClient) {}
+
+  connect(): Observable<void> {
+    // The connection is now handled on the server side
+    return new Observable(observer => {
+      observer.next();
+      observer.complete();
+    });
+  }
+
+  getSchemas(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.apiUrl}/schemas`);
+  }
+
+  getDatabases(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.apiUrl}/databases`);
+  }
+
+  fetchMetadata(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/metadata`);
+  }
+
+  fetchSnowflakeFunctions(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.apiUrl}/functions`);
+  }
+
+  executeQuery(query: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/execute-query`, { query });
+  }
+}
+
+
+---------------------
+File: src/app/services/auto-complete.service.spec.ts
+---------------------
+import { TestBed } from '@angular/core/testing';
+
+import { AutoCompleteService } from './auto-complete.service';
+
+describe('AutoCompleteService', () => {
+  let service: AutoCompleteService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
+    service = TestBed.inject(AutoCompleteService);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+});
+
+
+---------------------
+File: src/app/services/auto-complete.service.ts
+---------------------
+import { Injectable } from '@angular/core';
+import { SnowflakeService } from './snowflake.service';
+import { Observable, combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
+import * as monaco from 'monaco-editor';
+
+interface MetadataItem {
+  TABLE_NAME: string;
+  COLUMN_NAME: string;
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AutoCompleteService {
+  private sqlKeywords = [
+    'SELECT', 'FROM', 'WHERE', 'AND', 'OR', 'INSERT', 'UPDATE', 'DELETE',
+    'CREATE', 'TABLE', 'DROP', 'ALTER', 'INDEX', 'VIEW', 'PROCEDURE', 'FUNCTION',
+    'WAREHOUSE', 'CLONE', 'SHARE', 'STAGE', 'PIPE', 'TASK', 'STREAM',
+    'COPY', 'MERGE', 'UNDROP', 'RLIKE', 'SAMPLE', 'QUALIFY', 'PIVOT', 'UNPIVOT'
+  ];
+  constructor(private snowflakeService: SnowflakeService) {}
+
+  getAutoCompleteItems(): Observable<monaco.languages.CompletionItem[]> {
+    return combineLatest([
+      this.snowflakeService.fetchMetadata(),
+      this.snowflakeService.fetchSnowflakeFunctions()
+    ]).pipe(
+      map(([metadata, functions]: [MetadataItem[], string[]]) => {
+        const suggestions: monaco.languages.CompletionItem[] = [];
+
+        // Add table and column suggestions
+        metadata.forEach((item: MetadataItem) => {
+          suggestions.push({
+            label: item.TABLE_NAME,
+            kind: monaco.languages.CompletionItemKind.Class,
+            insertText: item.TABLE_NAME,
+            range: {
+              startLineNumber: 0,
+              endLineNumber: 0,
+              startColumn: 0,
+              endColumn: 0
+            }
+          });
+          suggestions.push({
+            label: item.COLUMN_NAME,
+            kind: monaco.languages.CompletionItemKind.Field,
+            insertText: item.COLUMN_NAME,
+            range: {
+              startLineNumber: 0,
+              endLineNumber: 0,
+              startColumn: 0,
+              endColumn: 0
+            }
+          });
+        });
+
+
+        this.sqlKeywords.map(keyword => (
+          suggestions.push({
+            label: keyword,
+            kind: monaco.languages.CompletionItemKind.Keyword,
+            insertText: keyword,
+            range: {
+              startLineNumber: 0,
+              endLineNumber: 0,
+              startColumn: 0,
+              endColumn: 0
+            }
+          })));
+
+
+        // Add function suggestions
+        functions.forEach((func: string) => {
+          suggestions.push({
+            label: func,
+            kind: monaco.languages.CompletionItemKind.Function,
+            insertText: func,
+            range: {
+              startLineNumber: 0,
+              endLineNumber: 0,
+              startColumn: 0,
+              endColumn: 0
+            }
+          });
+        });
+
+        return suggestions;
+      })
+    );
+  }
+}
+
+
+---------------------
+File: src/app/services/sql-formatter.service.spec.ts
+---------------------
+import { TestBed } from '@angular/core/testing';
+
+import { SqlFormatterService } from './sql-formatter.service';
+
+describe('SqlFormatterService', () => {
+  let service: SqlFormatterService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
+    service = TestBed.inject(SqlFormatterService);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+});
+
+
+---------------------
+File: src/app/services/snowflake.service.spec.ts
+---------------------
+import { TestBed } from '@angular/core/testing';
+
+import { SnowflakeService } from './snowflake.service';
+
+describe('SnowflakeService', () => {
+  let service: SnowflakeService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
+    service = TestBed.inject(SnowflakeService);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+});
+
+
+---------------------
+File: src/app/services/sql-formatter.service.ts
+---------------------
+import { Injectable } from '@angular/core';
+import { format } from 'sql-formatter';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class SqlFormatterService {
+  formatSql(sql: string): string {
+    return format(sql, { language: 'snowflake' });
+  }
+}
+
+
+---------------------
+File: src/main.ts
+---------------------
+import { bootstrapApplication } from '@angular/platform-browser';
+import { appConfig } from './app/app.config';
+import { AppComponent } from './app/app.component';
+
+bootstrapApplication(AppComponent, appConfig)
+  .then(() => console.log('Application started successfully'))
+  .catch(err => console.error('Error starting application:', err));
+
+
+---------------------
+File: src/styles.css
+---------------------
+body, html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+app-root {
+  display: block;
+  height: 100%;
+}
+
+app-sql-editor {
+  display: block;
+  height: calc(100% - 50px); /* Adjust based on your header size */
+}
+

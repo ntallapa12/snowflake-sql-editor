@@ -1,0 +1,49 @@
+<div class="sql-editor-page">
+  <div class="input-section">
+    <div class="natural-language-input">
+      <input
+        type="text"
+        [(ngModel)]="naturalLanguageQuery"
+        placeholder="Enter your query in natural language"
+      >
+      <button (click)="convertToSql()">Convert to SQL</button>
+    </div>
+
+    <div class="generated-sql">
+      <h3>Generated SQL:</h3>
+      <pre>{{ generatedSql$ | async }}</pre>
+    </div>
+  </div>
+
+  <div class="editor-section">
+    <div class="sql-editor-container">
+      <app-monaco-editor
+        #editor
+        [code]="code"
+        (codeChange)="onCodeChange($event)"
+      ></app-monaco-editor>
+    </div>
+    <div class="button-container">
+      <button class="action-button" (click)="formatSql()">Format SQL</button>
+      <button class="action-button execute" (click)="executeQuery()">Execute Query</button>
+    </div>
+  </div>
+
+  <div *ngIf="queryResults" class="results-container">
+    <h3>Sample Results ({{ queryResults.totalCount }} total rows)</h3>
+    <div class="table-container">
+      <table>
+        <thead>
+        <tr>
+          <th *ngFor="let header of getHeaders()">{{ header }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let row of queryResults.sampleResults">
+          <td *ngFor="let header of getHeaders()">{{ row[header] }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
